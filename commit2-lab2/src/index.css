@@ -1,0 +1,472 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+  color: #e0e0e0;
+}
+
+.App {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.App h1 {
+  text-align: center;
+  margin: 0 0 20px 0;
+  font-size: 2.5rem;
+  font-weight: 300;
+  background: linear-gradient(45deg, #64b5f6, #ba68c8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(100, 181, 246, 0.3);
+}
+
+.controls-panel {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(100, 181, 246, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(100, 181, 246, 0.15);
+}
+
+.controls-panel label,
+.scale-controls label {
+  color: #64b5f6;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.controls-panel button {
+  background: linear-gradient(45deg, #64b5f6, #ba68c8);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(100, 181, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.controls-panel button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.controls-panel button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 181, 246, 0.4);
+}
+
+.controls-panel button:hover::before {
+  left: 100%;
+}
+
+.controls-panel button:active {
+  transform: translateY(0);
+}
+
+.controls-panel button:disabled {
+  background: #666;
+  color: #999;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.controls-panel select {
+  padding: 10px 16px;
+  border: 1px solid rgba(100, 181, 246, 0.5);
+  border-radius: 8px;
+  background: rgba(30, 30, 46, 0.8);
+  color: #e0e0e0;
+  cursor: pointer;
+  font-size: 14px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.controls-panel select:hover {
+  border-color: #64b5f6;
+  box-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
+}
+
+.canvas-container {
+  padding: 50px;
+  box-sizing: border-box;
+  background: radial-gradient(
+      circle at 20% 80%,
+      rgba(100, 181, 246, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(186, 104, 200, 0.1) 0%,
+      transparent 50%
+    ),
+    repeating-conic-gradient(#1e1e2e 0% 25%, #2d2d44 0% 50%) 50% / 40px 40px;
+  overflow: auto;
+  width: 100%;
+  border-radius: 12px;
+}
+
+canvas {
+  display: block;
+  margin: 0 auto;
+  background-color: #0a0a0a;
+  border: none;
+  box-shadow: 0 0 30px rgba(100, 181, 246, 0.2),
+    0 0 60px rgba(186, 104, 200, 0.1), inset 0 0 20px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+}
+
+.canvas-container::before {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+canvas:hover {
+  box-shadow: 0 0 40px rgba(100, 181, 246, 0.3),
+    0 0 80px rgba(186, 104, 200, 0.2), inset 0 0 30px rgba(0, 0, 0, 0.6);
+  transform: scale(1.01);
+}
+
+.status-bar {
+  height: 50px;
+  padding: 0 25px;
+  line-height: 50px;
+  font-size: 14px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.status-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(100, 181, 246, 0.2),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.status-bar:hover::before {
+  left: 100%;
+}
+
+.controls {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(45deg, #64b5f6, #ba68c8);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(100, 181, 246, 0.3), 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.controls label::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.controls label:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 181, 246, 0.4), 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.controls label:hover::before {
+  left: 100%;
+}
+
+.controls label:active {
+  transform: translateY(0);
+}
+
+.resize-modal-dialog {
+  padding: 30px;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 0 50px rgba(100, 181, 246, 0.3),
+    0 0 100px rgba(186, 104, 200, 0.2);
+  max-width: 500px;
+  width: 90%;
+  background: rgba(30, 30, 46, 0.95);
+  backdrop-filter: blur(30px);
+  color: #e0e0e0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.resize-modal-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.resize-modal-dialog h2 {
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  font-weight: 300;
+  background: linear-gradient(45deg, #64b5f6, #ba68c8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.modal-controls {
+  margin-top: 20px;
+}
+
+.modal-controls .control-group {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.modal-controls label {
+  min-width: 140px;
+  color: #64b5f6;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.modal-controls input[type="number"],
+.modal-controls select {
+  flex-grow: 1;
+  padding: 12px 16px;
+  border: 1px solid rgba(100, 181, 246, 0.5);
+  border-radius: 8px;
+  background: rgba(10, 10, 10, 0.8);
+  color: #e0e0e0;
+  font-size: 14px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.modal-controls input[type="number"]:focus,
+.modal-controls select:focus {
+  outline: none;
+  border-color: #64b5f6;
+  box-shadow: 0 0 15px rgba(100, 181, 246, 0.3);
+}
+
+.modal-controls input[type="number"].input-error {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+}
+
+.modal-controls .error-message {
+  color: #ff6b6b;
+  font-size: 12px;
+  margin-top: 5px;
+  flex-basis: 100%;
+  text-align: right;
+}
+
+.modal-controls .checkbox-group {
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.modal-controls .checkbox-group label {
+  min-width: auto;
+  color: #e0e0e0;
+  font-weight: normal;
+}
+
+.tooltip-text {
+  font-size: 12px;
+  color: #64b5f6;
+  margin-top: 5px;
+  padding-left: 8px;
+  border-left: 2px solid #64b5f6;
+}
+
+.modal-buttons {
+  margin-top: 30px;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modal-buttons button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.modal-buttons button:first-child {
+  background: linear-gradient(45deg, #64b5f6, #ba68c8);
+  color: white;
+  box-shadow: 0 4px 15px rgba(100, 181, 246, 0.3);
+}
+
+.modal-buttons button:first-child:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 181, 246, 0.4);
+}
+
+.modal-buttons button:last-child {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.modal-buttons button:last-child:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .App {
+    padding: 15px;
+  }
+
+  .App h1 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+
+  .canvas-container {
+    padding: 15px;
+  }
+
+  .controls-panel {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .controls label {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .status-bar {
+    font-size: 12px;
+    padding: 0 20px;
+    height: 45px;
+    line-height: 45px;
+  }
+
+  .resize-modal-dialog {
+    padding: 20px;
+    width: 95%;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.App h1,
+.controls-panel,
+.canvas-container,
+.status-bar {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.controls-panel {
+  animation-delay: 0.1s;
+}
+
+.canvas-container {
+  animation-delay: 0.2s;
+}
+
+.status-bar {
+  animation-delay: 0.3s;
+}
